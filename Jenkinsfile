@@ -1,39 +1,40 @@
 pipeline {
-    agent { label 'master'}
+    agent { label 'master' }
     environment {
         DOCKERHUB_CREDENTIALS=credentials('dockerhub-feruza')
     }
 
     stages {
-        stage ('Checkout') {
-            steps {
-                git branch: 'main', url: 'git@github.com:frustamova96/jenkins-dockerhub.git'
-    }
-}
 
-        stage ('Build') {
-            steps {
+        stage('Checkout') {
+            steps{
+                git branch: 'main', url: 'git@github.com:frustamova96/jenkins-dockerhub.git'
+            }
+        }
+
+        stage('Build') {
+            steps{
                 sh 'docker build -t devops14:latest .'
             }
         }
 
-        stage ('Login') {
+        stage('Login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage ('imageTag') {
+        stage('ImageTag') {
             steps {
                 sh 'docker tag devops14:latest frustamova96/devops114-docker:version2'
             }
         }
 
-        stage ('Push') {
+        stage('Push') {
             steps {
-                sh ' docker push frustamova96/devops114-docker:version2'
+                sh 'docker push frustamova96/devops114-docker:version2'
             }
-        }  
+        }
     }
 
     post {

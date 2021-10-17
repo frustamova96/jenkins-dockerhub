@@ -5,8 +5,9 @@ pipeline {
     }
 
     stages {
-        stage ('Checkout')
-         git branch: 'main', url: 'git@github.com:frustamova96/jenkins-dockerhub.git'
+        stage ('Checkout') {
+            steps {
+                git branch: 'main', url: 'git@github.com:frustamova96/jenkins-dockerhub.git'
     }
 }
 
